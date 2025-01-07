@@ -6,6 +6,7 @@ from mutagen.mp3 import MP3
 from mutagen.flac import FLAC
 from mutagen.wave import WAVE
 from mutagen.aiff import AIFF
+from mutagen.mp4 import MP4
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('audioDataLogger')
@@ -25,6 +26,10 @@ def load_flac_file(file_path: str) -> FLAC:
 
 def load_aiff_file(file_path: str) -> AIFF:
     return AIFF(file_path)
+
+
+def load_mp4_file(file_path: str) -> MP4:
+    return MP4(file_path)
 
 
 def get_file_size(file_path: str) -> int:
@@ -51,6 +56,9 @@ def audio_analyzer_class(track_path: str):
     if track_path.lower().endswith("aiff"):
         audio_file = AudioFile("AIFF", track_path)
 
+    if track_path.lower().endswith("m4a") or track_path.lower().endswith("mp4"):
+        audio_file = AudioFile("MP4", track_path)
+
     if audio_file is None:
         extension = track_path.split(".")[-1]
         raise AudioFileTypeNotKnownException(f"File with extension '{extension}' not known.")
@@ -59,7 +67,7 @@ def audio_analyzer_class(track_path: str):
 
 
 class AudioFile:
-    audio_type: MP3 | FLAC | WAVE | AIFF
+    audio_type: MP3 | FLAC | WAVE | AIFF | MP4
 
     artist = ""
     title = ""
@@ -86,6 +94,12 @@ class AudioFile:
                         raise AudioFileTagException("Can't get tracks from mutagen package.")
                     self.artist = audio_file.tags['artist'][0]
                     self.title = audio_file.tags['title'][0]
+                case "MP4":
+                    audio_file = load_mp4_file(track_path)
+                    if audio_file == {}:
+                        raise AudioFileTagException("Can't get tracks from mutagen package.")
+                    self.artist = audio_file.tags['©ART'][0]
+                    self.title = audio_file.tags['©nam'][0]
 
             self.bitrate = audio_file.info.bitrate
             self.filesize = get_file_size(track_path)

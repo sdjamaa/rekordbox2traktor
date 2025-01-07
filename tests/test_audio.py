@@ -91,3 +91,20 @@ class TestAudioFileLoading(unittest.TestCase):
         self.assertEqual("super mix", file.title)
         self.assertEqual(99, file.bitrate)
         self.assertEqual(10000, file.filesize)
+
+    @patch("data.load_mp4_file")
+    @patch("data.get_file_size")
+    def test_audiofile_m4a(self, mock_file_size, mock_m4a):
+        type(mock_m4a.return_value).tags = PropertyMock(return_value={
+            '©ART': ["aama"],
+            '©nam': ["super mix"]
+        })
+        type(mock_m4a.return_value).info = PropertyMock(return_value=Mock(bitrate=99))
+        mock_file_size.return_value = 10000
+
+        file = audio_analyzer_class("/Users/aama.m4a")
+
+        self.assertEqual("aama", file.artist)
+        self.assertEqual("super mix", file.title)
+        self.assertEqual(99, file.bitrate)
+        self.assertEqual(10000, file.filesize)
