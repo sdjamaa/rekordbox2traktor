@@ -74,3 +74,20 @@ class TestAudioFileLoading(unittest.TestCase):
         self.assertEqual("super mix", file.title)
         self.assertEqual(99, file.bitrate)
         self.assertEqual(10000, file.filesize)
+
+    @patch("data.load_aiff_file")
+    @patch("data.get_file_size")
+    def test_audiofile_aiff(self, mock_file_size, mock_aiff):
+        type(mock_aiff.return_value).tags = PropertyMock(return_value={
+            'TPE1': Mock(text=["aama"]),
+            'TIT2': Mock(text=["super mix"])
+        })
+        type(mock_aiff.return_value).info = PropertyMock(return_value=Mock(bitrate=99))
+        mock_file_size.return_value = 10000
+
+        file = audio_analyzer_class("/Users/aama.aiff")
+
+        self.assertEqual("aama", file.artist)
+        self.assertEqual("super mix", file.title)
+        self.assertEqual(99, file.bitrate)
+        self.assertEqual(10000, file.filesize)

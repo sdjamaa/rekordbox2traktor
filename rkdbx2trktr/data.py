@@ -5,6 +5,7 @@ from pathlib import Path
 from mutagen.mp3 import MP3
 from mutagen.flac import FLAC
 from mutagen.wave import WAVE
+from mutagen.aiff import AIFF
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('audioDataLogger')
@@ -20,6 +21,10 @@ def load_wave_file(file_path: str) -> WAVE:
 
 def load_flac_file(file_path: str) -> FLAC:
     return FLAC(file_path)
+
+
+def load_aiff_file(file_path: str) -> AIFF:
+    return AIFF(file_path)
 
 
 def get_file_size(file_path: str) -> int:
@@ -43,6 +48,9 @@ def audio_analyzer_class(track_path: str):
     if track_path.lower().endswith("wav"):
         audio_file = AudioFile("WAVE", track_path)
 
+    if track_path.lower().endswith("aiff"):
+        audio_file = AudioFile("AIFF", track_path)
+
     if audio_file is None:
         extension = track_path.split(".")[-1]
         raise AudioFileTypeNotKnownException(f"File with extension '{extension}' not known.")
@@ -51,7 +59,7 @@ def audio_analyzer_class(track_path: str):
 
 
 class AudioFile:
-    audio_type: MP3 | FLAC | WAVE
+    audio_type: MP3 | FLAC | WAVE | AIFF
 
     artist = ""
     title = ""
@@ -61,8 +69,13 @@ class AudioFile:
     def __init__(self, audio_type: str, track_path: str):
         try:
             match audio_type:
-                case "MP3" | "WAVE":
-                    audio_file = load_mp3_file(track_path) if audio_type == "MP3" else load_wave_file(track_path)
+                case "MP3" | "WAVE" | "AIFF":
+                    if audio_type == "MP3":
+                        audio_file = load_mp3_file(track_path)
+                    elif audio_type == "WAVE":
+                        audio_file = load_wave_file(track_path)
+                    elif audio_type == "AIFF":
+                        audio_file = load_aiff_file(track_path)
                     if audio_file == {}:
                         raise AudioFileTagException("Can't get tracks from mutagen package.")
                     self.artist = audio_file.tags['TPE1'].text[0]
