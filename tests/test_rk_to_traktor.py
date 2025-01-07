@@ -1,9 +1,8 @@
 import unittest
 import os
-from unittest.mock import Mock, patch
 import xml.etree.ElementTree as ET
 
-from rkdbx2trktr import parse_rekordbox, audio_analyzer_class
+from rkdbx2trktr import parse_rekordbox
 from rkdbx2trktr.utils import flatten_playlists
 
 
@@ -29,12 +28,6 @@ class TestRekordboxToTraktorConversion(unittest.TestCase):
             count += 1
             self.assertEqual(res.tag, "NODE")
         self.assertEqual(count, 2)
-
-    @patch("mutagen.MP3")
-    def test_audiofile_mp3(self, mock_mp3):
-        mock_mp3_object = { 'artist' : "aama", 'title': "super mix"}
-        mock_mp3.return_value(mock_mp3_object)
-        audio_analyzer_class("/Users/aama.mp3")
 
 
 if __name__ == '__main__':

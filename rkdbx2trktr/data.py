@@ -10,6 +10,22 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('audioDataLogger')
 
 
+def load_mp3_file(file_path: str) -> MP3:
+    return MP3(file_path)
+
+
+def load_wave_file(file_path: str) -> WAVE:
+    return WAVE(file_path)
+
+
+def load_flac_file(file_path: str) -> FLAC:
+    return FLAC(file_path)
+
+
+def get_file_size(file_path: str) -> int:
+    return Path(file_path).stat().st_size
+
+
 def audio_analyzer_class(track_path: str):
     track_path = track_path.replace("file://localhost", "")
     track_path = urllib.parse.unquote(track_path)
@@ -46,20 +62,20 @@ class AudioFile:
         try:
             match audio_type:
                 case "MP3" | "WAVE":
-                    audio_file = MP3(track_path) if audio_type == "MP3" else WAVE(track_path)
+                    audio_file = load_mp3_file(track_path) if audio_type == "MP3" else load_wave_file(track_path)
                     if audio_file == {}:
                         raise AudioFileTagException("Can't get tracks from mutagen package.")
                     self.artist = audio_file.tags['TPE1'].text[0]
                     self.title = audio_file.tags['TIT2'].text[0]
                 case "FLAC":
-                    audio_file = FLAC(track_path)
+                    audio_file = load_flac_file(track_path)
                     if audio_file == {}:
                         raise AudioFileTagException("Can't get tracks from mutagen package.")
                     self.artist = audio_file.tags['artist'][0]
                     self.title = audio_file.tags['title'][0]
 
             self.bitrate = audio_file.info.bitrate
-            self.filesize = Path(track_path).stat().st_size
+            self.filesize = get_file_size(track_path)
         except KeyError as ke:
             raise AudioFileMissingTagException(f"Key missing: {ke}")
 
