@@ -33,9 +33,7 @@ def write_collection_entries(root: Element, p: dict):
     for track in all_tracks:
         # track_path = track.replace("file://localhost", "")
         # track_path = urllib.parse.unquote(track_path)
-
-        print(track_path)
-        audio_file = audio_analyzer_class(track_path)
+        audio_file = audio_analyzer_class(track)
 
         strdate = date.today().strftime("%d/%m/%y")
         entry = ET.SubElement(collection, "ENTRY",

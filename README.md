@@ -33,7 +33,17 @@ It takes 2 arguments:
 
 ## Development notes
 
-You can run tests by 
+You can run tests by:
+- setting `PYTHONPATH` environment variable
+```commandline
+export PYTHONPATH=$PYTHONPATH:/Users/sofian/Development/music_tools/rekordbox_to_traktor/rkdbx2trktr
+```
+- then run:
+```commandline
+python -m unittest
+```
+
+⚠️ For `PyCharm` please mark the `rkdbx2trktr` directory as `Source Root` so it can be automatically added to `PYTHONPATH`.
 
 # Contact
 
