@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DJ_PLAYLISTS Version="1.0.0">
+  <PRODUCT Name="rekordbox" Version="6.8.5" Company="AlphaTheta"/>
+  <COLLECTION Entries="3775">
+    <TRACK TrackID="255538535" Name="I Hadn&apos;t Known (I Only Heard)"
+           Artist="Herbert" Composer="" Album="" Grouping="" Genre="Deep House / Balearic House / Float House"
+           Kind="MP3 File" Size="17586748" TotalTime="438" DiscNumber="0"
+           TrackNumber="0" Year="0" AverageBpm="123.39" DateAdded="2023-04-27"
+           BitRate="320" SampleRate="44100" Comments="Quality sucks /* Atmospheric / Hypnotic / Melancholy */"
+           PlayCount="0" Rating="0" Location="file://localhost/Volumes/Tracks/Herbert%20-%20I%20Hadn%27t%20Known%20(I%20Only%20Heard).mp3"
+           Remixer="" Tonality="Bm" Label="" Mix="">
+    </TRACK>
+  </COLLECTION>
+  <PLAYLISTS>
+    <NODE Type="0" Name="ROOT" Count="111">
+      <NODE Name="UKG" Type="0" Count="2">
+        <NODE Name="Breaks" Type="1" KeyType="0" Entries="15">
+          <TRACK Key="255538535"/>
+        </NODE>
+      </NODE>
+    </NODE>
+  </PLAYLISTS>
+</DJ_PLAYLISTS>
