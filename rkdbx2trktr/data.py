@@ -8,7 +8,7 @@ from mutagen.wave import WAVE
 from mutagen.aiff import AIFF
 from mutagen.mp4 import MP4
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('audioDataLogger')
 
 
@@ -37,10 +37,17 @@ def get_file_size(file_path: str) -> int:
 
 
 def audio_analyzer_class(track_path: str):
-    track_path = track_path.replace("file://localhost", "")
-    track_path = urllib.parse.unquote(track_path)
+    """Creates a AudioFile for a given audio file type and reads ID3 tags.
+    Important: path should be formatted already for Unix/OSX (starts with '/').
+    Please use clean_path method to decode from URL string and remove useless prefixes.
 
+    Raises exceptions if path is wrong, audio file or tags can't be read...
+    """
     logger.debug(f"Importing {track_path}")
+
+    # TODO: add more checks for paths (e.g. depending on OS)
+    if track_path == "" or track_path is None:
+        raise AudioFilePathDoesNotExistException("Path cannot be empty...")
 
     audio_file = None
 
@@ -118,5 +125,10 @@ class AudioFileMissingTagException(Exception):
 
 
 class AudioFileTypeNotKnownException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
+class AudioFilePathDoesNotExistException(Exception):
     def __init__(self, message):
         super().__init__(message)

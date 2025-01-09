@@ -45,6 +45,13 @@ python -m unittest
 
 ⚠️ For `PyCharm` please mark the `rkdbx2trktr` directory as `Source Root` so it can be automatically added to `PYTHONPATH`.
 
+# MP3 Checker
+
+tl;dr; analyzes a Rekordbox playlist to find out:
+- which tracks have corrupted tags
+- which tracks are not found on local disk
+- which tracks have missing tags
+
 # Contact
 
 Please check GitHub issues for a gist of the roadmap.

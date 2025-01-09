@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-from utils import flatten_playlists
+from utils import flatten_playlists, clean_path
 
 
 def parse_rekordbox(rekordbox_coll_path: str) -> dict:
@@ -15,7 +15,8 @@ def parse_rekordbox(rekordbox_coll_path: str) -> dict:
         # TODO: weird v4/catalog path from Rekordbox internal library I guess
         if "catalog" in track_path:
             continue
-        all_tracks.update({track_id: track_path})
+        cleaned_path = clean_path(track_path)
+        all_tracks.update({track_id: cleaned_path})
 
     playlists = tree.find('PLAYLISTS/NODE')
     for playlist in flatten_playlists(playlists):

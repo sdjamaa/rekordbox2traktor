@@ -6,7 +6,7 @@ from rkdbx2trktr import parse_rekordbox
 from rkdbx2trktr.utils import flatten_playlists
 
 
-class TestRekordboxToTraktorConversion(unittest.TestCase):
+class TestRekordboxPlaylistParser(unittest.TestCase):
 
     def test_small_rekordbox_xml(self):
         regular_xml_file = os.path.join(os.path.dirname(__file__), 'testfiles/regular_small.xml')
